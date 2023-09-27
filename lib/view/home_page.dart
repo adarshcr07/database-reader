@@ -26,11 +26,21 @@ class MyHomePage extends StatelessWidget {
               'age': connector.detailedList[index].age,
             };
 
-            return connector.ListCreator(detailsList, index);
+            return connector.ListCreator(context, detailsList, index);
             //GridTile(child: doctorsCard(doctorslist, index));
           }),
         );
       }),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.white,
+        onPressed: () {
+          Provider.of<DataProvider>(context, listen: false).dialogbox(context);
+        },
+        child: Icon(
+          Icons.add,
+          color: Colors.black,
+        ),
+      ),
     );
   }
 }
