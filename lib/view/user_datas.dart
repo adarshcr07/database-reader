@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:user_tester/view/widgets.dart';
 //import 'package:user_tester/model/user_details_model.dart';
 import 'package:user_tester/view_model/data_provider.dart';
 
 class Displaypage extends StatefulWidget {
-  final int index;
-  const Displaypage({super.key, required this.index});
-  /* final String fetchdUsername;
+  final String fetchdUsername;
 
-  const Displaypage({super.key, required this.fetchdUsername});*/
+  const Displaypage({super.key, required this.fetchdUsername});
 
   DisplaypageState createState() => DisplaypageState();
 }
@@ -29,7 +28,9 @@ class DisplaypageState extends State<Displaypage> {
               child: CircularProgressIndicator(),
             );
           } else {
-            connector.AddressLoader(); //fetch the id with widget dot
+            connector.AddressLoader(
+                widget.fetchdUsername); //fetch the id with widget dot
+            //  print('anser ${widget.fetchdUsername}');
             return ListView.builder(
                 itemCount: connector.nestedList.length,
                 itemBuilder: ((context, index) {
@@ -37,8 +38,8 @@ class DisplaypageState extends State<Displaypage> {
                     'HouseName': connector.nestedList[index].HouseName,
                     'Street': connector.nestedList[index].Street,
                   };
-                  print('object ${nestlist.length}');
-                  return connector.DisplayAddress(context, nestlist, index);
+                  // print('object ${nestlist.length}');
+                  return DisplayAddress(context, nestlist, index);
                 }));
           }
         },

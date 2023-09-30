@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:user_tester/view/widgets.dart';
 
 import 'package:user_tester/view_model/data_provider.dart';
 
@@ -26,7 +27,12 @@ class MyHomePage extends StatelessWidget {
               'age': connector.detailedList[index].age,
             };
 
-            return connector.ListCreator(context, detailsList, index);
+            connector.fetchedname = connector.detailedList[index].username;
+
+            print('tester ${connector.fetchedname[index]}');
+
+            return ListCreator(
+                context, detailsList, index, connector.fetchedname);
             //GridTile(child: doctorsCard(doctorslist, index));
           }),
         );
@@ -34,7 +40,7 @@ class MyHomePage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.white,
         onPressed: () {
-          Provider.of<DataProvider>(context, listen: false).dialogbox(context);
+          dialogbox(context);
         },
         child: Icon(
           Icons.add,
