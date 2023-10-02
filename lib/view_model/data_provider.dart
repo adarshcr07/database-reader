@@ -25,25 +25,35 @@ class DataProvider extends ChangeNotifier {
   List<Address> nestedList = [];
   final CollectionReference dataRetriver =
       FirebaseFirestore.instance.collection('userDetails');
+  final CollectionReference subcollect = FirebaseFirestore.instance
+      .collection('userDetails')
+      .doc()
+      .collection('address');
 
 //CRUD
-  Future<void> createNewuser(String Username, String pass, String age,
+  Future<void> createNewuser(String Username, String pass, int age,
       String HouseName, String Street) async {
+    var docid = dataRetriver.doc().id;
     try {
       notifyListeners();
-      await dataRetriver.add({
+      await dataRetriver.doc(docid).set({
         'username': Username,
         'password': pass,
         'age': age,
-        // 'HouseName': HouseName,
-        // 'Street': Street
-      }).then((value) {
-        //print("JustTry ${Username}");
-        loaddetails();
-        //loadaddress();
-        //print("After ${Username}");
+      }).then((value) async {
         notifyListeners();
+        loaddetails();
+        //sub collection adding to database
+        await dataRetriver
+            .doc(docid)
+            .collection('address')
+            .add({'HouseName': HouseName, 'Street': Street}).then((value) {
+          notifyListeners();
+          loadaddress(Username);
+        });
       });
+      // print('Sub collection added to Firestore');
+
       print('New user document added to Firestore');
     } catch (e) {
       notifyListeners();
@@ -68,7 +78,7 @@ class DataProvider extends ChangeNotifier {
       print('check here${snapshot.docs.length}');
       final userDetails =
           snapshot.docs.map((doc) => UserDetails.fromJson(doc.data())).toList();
-      print('Here23 ${userDetails[0]}');
+      print('noobtest${userDetails[0]}');
       detailedList = userDetails;
       // print('boomerang ${detailedList[0]}');
 
@@ -79,7 +89,7 @@ class DataProvider extends ChangeNotifier {
         notifyListeners();
       }
     } catch (error) {
-      print('error Loading the data main');
+      print(error);
     }
     notifyListeners();
   }

@@ -29,7 +29,7 @@ class MyHomePage extends StatelessWidget {
 
             connector.fetchedname = connector.detailedList[index].username;
 
-            print('tester ${connector.fetchedname[index]}');
+            //  print('tester ${connector.fetchedname[index]}');
 
             return ListCreator(
                 context, detailsList, index, connector.fetchedname);

@@ -162,7 +162,8 @@ void dialogbox(BuildContext context) {
                                 .createNewuser(
                                     consumer.usernamecontroller.text,
                                     consumer.passcontroller.text,
-                                    consumer.agecontroller.text,
+                                    int.tryParse(consumer.agecontroller.text) ??
+                                        0, //it retrieve the string text as int ! just replaced the cast
                                     consumer.housenamecontroller.text,
                                     consumer.Streetcontroller.text)
                                 .then((value) => Navigator.pop(context));
