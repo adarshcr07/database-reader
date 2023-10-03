@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:user_tester/view/edit_address.dart';
 import 'package:user_tester/view/user_datas.dart';
 import 'package:user_tester/view_model/data_provider.dart';
 
@@ -188,9 +189,38 @@ void dialogbox(BuildContext context) {
       });
 }
 
+// the alert dialog for delete the user
+Future<void> deleteBox(BuildContext context, String UsernameT) {
+  return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Delete User"),
+          content: Text(
+              "You want to delete this user named ${UsernameT}"), // at last we add the currespond username here
+          actions: [
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('No')),
+            ElevatedButton(
+                onPressed: () {
+                  Provider.of<DataProvider>(context, listen: false)
+                      .deleteUser(name: UsernameT)
+                      .then((value) => Navigator.pop(context));
+
+                  //add other widget you want
+                },
+                child: Text('Yes'))
+          ],
+        );
+      });
+}
+
 //address displayer
-Widget DisplayAddress(
-    BuildContext context, Map<String, dynamic> address, int index) {
+Widget DisplayAddress(BuildContext context, Map<String, dynamic> address,
+    int index, String Username) {
   //print('test ${index}');
 
   return Padding(
@@ -203,6 +233,17 @@ Widget DisplayAddress(
       child: ListTile(
         title: Text(address['HouseName']),
         subtitle: Text(address['Street']),
+        //create a on tap. then navigate it to next page named edit address.
+        //on that there will be theses currospond housename and street on the text fieald
+        // then the user can edit it . and he click the save button it saves the new updated address
+        onTap: () {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => EditAddresspage(
+                    currentUserAddress: address, fetchdUsername: Username)),
+          );
+        },
       ),
     ),
   );
@@ -236,6 +277,7 @@ Widget ListCreator(BuildContext context, Map<String, dynamic> mapofuserdetails,
                     )),
           )
         },
+        onLongPress: () => {deleteBox(context, Username)},
       ),
     ),
   );

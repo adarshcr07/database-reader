@@ -37,6 +37,7 @@ class MyHomePage extends StatelessWidget {
           }),
         );
       }),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.white,
         onPressed: () {

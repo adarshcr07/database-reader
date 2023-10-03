@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:user_tester/view/home_page.dart';
 import 'package:user_tester/view/widgets.dart';
-//import 'package:user_tester/model/user_details_model.dart';
 import 'package:user_tester/view_model/data_provider.dart';
 
 class Displaypage extends StatefulWidget {
@@ -19,6 +19,15 @@ class DisplaypageState extends State<Displaypage> {
       appBar: AppBar(
         title: Text("Sub collection data"),
         backgroundColor: const Color.fromARGB(255, 143, 142, 139),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => MyHomePage(title: 'title')),
+              );
+            },
+            icon: Icon(Icons.arrow_back_ios)),
       ),
       body: Consumer<DataProvider>(
         builder: (context, connector, child) {
@@ -39,7 +48,8 @@ class DisplaypageState extends State<Displaypage> {
                     'Street': connector.nestedList[index].Street,
                   };
                   // print('object ${nestlist.length}');
-                  return DisplayAddress(context, nestlist, index);
+                  return DisplayAddress(
+                      context, nestlist, index, widget.fetchdUsername);
                 }));
           }
         },
